@@ -74,7 +74,7 @@ function Home(data :any) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('https://www.googleapis.com/books/v1/volumes?q=Python');
+  const res = await fetch('https://www.googleapis.com/books/v1/volumes?q=React');
   const data = await res.json();
 
   return { props: { books: data } };
