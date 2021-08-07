@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import { store } from "../src/utils/firebase";
+import db from "../src/utils/firebase-admin";
 import styles from '../styles/Home.module.css';
 
 function Home(data :any) {
-  const { books } = data;
+  console.log(data);
+
+  const addMoview = () => {
+    store.collection("movies").add({
+      id: 'xxx',
+      title: 'yyyy'
+    })
+    .then(() => {
+      alert('登録されました');
+    })
+    .catch(() => {
+      alert('登録処理ができませんでした');
+    });
+  } 
 
   return (
     <div className={styles.container}>
@@ -15,15 +30,16 @@ function Home(data :any) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          {books.items[0].volumeInfo.title}
-        </h1>
 
         <p className={styles.description}>
           Get started by editing
           {' '}
           <code className={styles.code}>pages/index.js</code>
         </p>
+
+        <div className={styles.description} onClick={() => addMoview()}>
+          Click Here!!
+        </div>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
@@ -74,10 +90,14 @@ function Home(data :any) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('https://www.googleapis.com/books/v1/volumes?q=React');
-  const data = await res.json();
+  const movies = [] as any;
+  const ref = await db.collection('movies').get();
+  ref.docs.map((doc: any) => {
+    const data = { id: doc.id };
+    movies.push(data);
+  });
 
-  return { props: { books: data } };
+  return { props: { movies } };
 }
 
 export default Home;
