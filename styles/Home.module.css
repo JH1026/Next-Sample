@@ -1,11 +1,12 @@
+
 .container {
-  min-height: 100vh;
+  min-height: 700px;
+  margin-top: 50px;
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .main {
@@ -74,20 +75,40 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1400px;
   margin-top: 3rem;
+}
+
+.mylistLink {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  width:40%;
+  min-width: 250px;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.mylistLink:hover,
+.mylistLink:focus,
+.mylistLink:active {
+  color: #0070f3;
+  border-color: #0070f3;
 }
 
 .card {
   margin: 1rem;
   padding: 1.5rem;
-  text-align: left;
+  text-align: center;
   color: inherit;
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  width: 45%;
+  width: 40%;
+  min-width: 250px;
+  cursor: pointer;
 }
 
 .card:hover,
@@ -119,3 +140,25 @@
     flex-direction: column;
   }
 }
+
+.inputField {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 15px;
+}
+
+.inputButtonField {
+  width: 100%;
+  max-width: 400px;
+}
+
+.inputButtonField {
+  width: 100%;
+  max-width: 400px;
+}
+
+.inputButton {
+  width: 100%;
+}
+
+
