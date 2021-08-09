@@ -1,39 +1,64 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Overview
 
-## Getting Started
+This is sample app using next.js,firebase,vercel.<br>
+This App aims to collect niconico movie link.<br>
+https://next-sample-6e3i2fp16-juneorg2020.vercel.app/
 
-First, run the development server:
+## Techniques
 
-```bash
-npm run dev
-# or
-yarn dev
+* __frontend__
+  * __typescript 4.3.5__
+  * __next.js 11.0.1__
+  * __React.js 17.0.2__
+  * __material-ui/core 4.12.3__
+  * __eslint 7.32.0__
+
+* __インフラ__
+  * __Docker 20.10.5 / docker-compose 1.28.5__
+  * __nginx 1.20__
+  * __mysql 8.0__
+
+* __others__
+  * __firestore__
+  * __firestore__
+
+### ローカル環境でのデプロイ
+1.  git clone
+```terminal
+git clone https://github.com/JuneOrg2020/BookReviewSample.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  移動
+```terminal
+cd BookReviewSample
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+2.  docker ビルド
+```terminal
+make build
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
+3.  ライブラリインストールとLaravel初期設定
+```terminal
+make init
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+4.  DDL及び初期データ投入
+```terminal
+make init-db
+```
 
-## Learn More
+### Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. ログイン<br>
+http://127.0.0.1/ にアクセスし、以下の情報からログインする<br>
+ログインユーザーID: test@test.com <br>
+ログインパスワード: testuser <br>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-=======
-# NextSample
-Next.js App
->>>>>>> origin/main
+## 画面イメージ
+ Search <br>
+<img src="https://user-images.githubusercontent.com/64642177/127508184-f72c9b82-f1fa-4408-9426-77201ab062aa.png" width=600><br>
+ Review <br>
+<img src="https://user-images.githubusercontent.com/64642177/127508205-2ba1684f-8e99-4654-b4e6-a903f6762ff9.png" width=600><br>
+ BookGroup <br>
+<img src="https://user-images.githubusercontent.com/64642177/127508210-367d3b25-8c71-41e5-ae96-104a98223180.png" width=600><br>
