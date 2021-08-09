@@ -1,21 +1,14 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { useRouter } from 'next/router';
 
 type Props = {
-  title: string,
+  memo: string,
   movieId: string,
 };
 
-const NicoNicoThumbnail = (prop :Props) => {
-  const router = useRouter();
-
-  const clickAction = (url: string) => {
-    router.push({
-      pathname: url,
-    });
-  };
-
+const NicoNicoThumbnail = (props :Props) => {
+  const { movieId, memo } = props;
+  console.log(memo, memo === '');
   return (
     <div
       style={{
@@ -27,7 +20,7 @@ const NicoNicoThumbnail = (prop :Props) => {
     >
       <iframe
         title="test"
-        src={`https://ext.nicovideo.jp/thumb/${prop.movieId}`}
+        src={`https://ext.nicovideo.jp/thumb/${movieId}`}
         scrolling="no"
         style={{
           width: '100%',
@@ -48,7 +41,7 @@ const NicoNicoThumbnail = (prop :Props) => {
           flex: 'wrap',
         }}
       >
-        コメントなしコメントなしコメントなしコメントなしコメントなしコメントなし
+        {memo === '' || memo === undefined ? 'メモなし' : memo}
       </div>
     </div>
   );

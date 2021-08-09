@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -25,9 +25,10 @@ export default function commonDrawer() {
   const [open, setOpen] = React.useState(false);
 
   const menu = [
-    ['Login', 'login'],
-    ['List', 'list'],
-    ['', ''],
+    ['Top', '/'],
+    ['Register', '/register'],
+    ['Login', '/login'],
+    ['Logout', '/logout'],
   ];
 
   const handleDrawerOpen = () => {
@@ -38,9 +39,9 @@ export default function commonDrawer() {
     setOpen(false);
   };
 
-  const toLink = (linkInfo :string[]) => {
+  const toLink = (link :string) => {
     setOpen(false);
-    router.push(linkInfo[1]);
+    router.push(link);
   };
 
   return (
@@ -63,9 +64,7 @@ export default function commonDrawer() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap className={classes.title}>
-              My Movies
-              {' '}
-              {true ? ' | Pending!!!' : '' }
+              My Movie Link
             </Typography>
           </Toolbar>
         </AppBar>
@@ -79,15 +78,7 @@ export default function commonDrawer() {
           }}
         >
           <div className={classes.drawerHeader}>
-            <div style={{
-              width: '100%',
-              textAlign: 'left',
-              paddingLeft: '16px',
-              paddingTop: '24px',
-            }}
-            >
-              Pending!!!
-            </div>
+
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
@@ -95,7 +86,7 @@ export default function commonDrawer() {
           <Divider />
           <List>
             {menu.map((linkInfo :string[]) => (
-              <ListItem button key={linkInfo[1]} onClick={() => toLink(linkInfo)}>
+              <ListItem button key={linkInfo[1]} onClick={() => toLink(linkInfo[1])}>
                 <ListItemText primary={linkInfo[0]} />
               </ListItem>
             ))}

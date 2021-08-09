@@ -9,8 +9,28 @@
   align-items: center;
 }
 
+.clearFloatContents {
+  clear: both;
+  display: block;
+}
+
+.centerContents {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .main {
   padding: 5rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.backButtonArea {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -143,6 +163,13 @@
 
 .inputField {
   width: 100%;
+  max-width: 400px;
+  margin-bottom: 15px;
+}
+
+.inputSelect {
+  width: 100%;
+  height: 50px;
   max-width: 400px;
   margin-bottom: 15px;
 }
