@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import Head from 'next/head';
 import { Button } from '@material-ui/core';
-import NicoNicoThumbnail from '../../src/components/nicoNicoThumbnail';
+import NicoNicoLink from '../../src/components/niconicoLink';
 import styles from '../../styles/Home.module.css';
 import db from '../../src/utils/firebase-admin';
 
@@ -19,8 +19,8 @@ const MovieList: FC<Props> = (data) => {
   const { movies, category } = data;
 
   useEffect(() => {
-    if (category === 'vocaloid') {
-      setTitle('ボカロ実況');
+    if (category === 'cook') {
+      setTitle('料理');
     } else if (category === 'commentary') {
       setTitle('実況');
     } else if (category === 'tas') {
@@ -49,7 +49,7 @@ const MovieList: FC<Props> = (data) => {
           {movies.length === 0
             ? <h2>保存されたリンクはありません</h2>
             : movies.map((item: any) => (
-              <NicoNicoThumbnail
+              <NicoNicoLink
                 key={item.movieId}
                 memo={item.memo}
                 movieId={item.movieId}

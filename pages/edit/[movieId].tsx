@@ -1,27 +1,42 @@
-import React, { FC, useState } from 'react';
+/* eslint-disable react/destructuring-assignment */
+import React, { FC, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import Head from 'next/head';
 import {
   TextField, Button, Select, MenuItem,
 } from '@material-ui/core';
-import styles from '../styles/Home.module.css';
-import { store } from '../src/utils/firebase';
+import db from '../../src/utils/firebase-admin';
+import styles from '../../styles/Home.module.css';
+import { store } from '../../src/utils/firebase';
 
-const Register: FC = () => {
-  const [url, setURL] = useState<string>('');
-  const [memo, setMemo] = useState<string>('');
-  const [category, setCategory] = useState<string>('select');
+type Props = {
+  movie: {
+    category: string,
+    memo: string,
+  },
+  docId: string,
+};
+
+const Edit: FC<Props> = (data) => {
+  const { movie, docId } = data;
+  const router = useRouter();
+  const { movieId } = router.query;
+
+  const [memo, setMemo] = useState<string>(movie.memo);
+  const [category, setCategory] = useState<string>(movie.category);
   const [isClickable, setIsClickable] = useState<boolean>(true);
   const [buttonText, setButtonText] = useState<string>('リンク保存する');
+
+  useEffect(() => {
+    if (movieId === undefined) {
+      router.push('/');
+    }
+  }, []);
 
   const validation = () => {
     if (category === 'select') {
       alert('カテゴリーを選択してください');
-      return false;
-    }
-
-    if (url.indexOf('www.nicovideo.jp') === -1) {
-      alert('www.nicovideo.jpから始まるURLを入力してください');
       return false;
     }
 
@@ -33,13 +48,7 @@ const Register: FC = () => {
     return true;
   };
 
-  const checkMovieId = async (movieId: string) => {
-    const res = await fetch(`/api/movieId/${movieId}`);
-    const data: any = await res.json();
-    return data.exists;
-  };
-
-  const registerAction = async () => {
+  const editAction = () => {
     if (validation() === false) {
       return;
     }
@@ -47,40 +56,13 @@ const Register: FC = () => {
     setButtonText('リンク保存中...');
     setIsClickable(false);
 
-    const urlAry = url.split('/');
-    let movieId = urlAry[urlAry.length - 1];
-
-    if (movieId.indexOf('?') !== -1) {
-      [movieId] = movieId.split('?');
-    }
-
-    const pattern = /[0-9]+/;
-    if (movieId.match(pattern) === null) {
-      alert('URLが正しくありません');
-      setButtonText('リンク保存する');
-      setIsClickable(true);
-      return;
-    }
-
-    const exists = await checkMovieId(movieId);
-
-    if (exists) {
-      alert('既にその動画は登録されています。');
-      setButtonText('リンク保存する');
-      setIsClickable(true);
-      return;
-    }
-
-    store.collection('movies').add({
-      category,
-      movieId,
-      memo,
-    })
+    store.collection('movies').doc(docId)
+      .update({
+        category,
+        memo,
+      })
       .then(() => {
         alert('保存されました');
-        setCategory('select');
-        setMemo('');
-        setURL('');
         setIsClickable(true);
         setButtonText('リンク保存する');
       })
@@ -93,6 +75,16 @@ const Register: FC = () => {
           setButtonText('リンク保存する');
         }
       });
+  };
+
+  const deleteAction = () => {
+    if (!window.confirm('このリンクを削除してよろしいですか?')) {
+      return;
+    }
+    store.collection('movies')
+      .doc(docId)
+      .delete();
+    router.push('/');
   };
 
   return (
@@ -117,13 +109,13 @@ const Register: FC = () => {
           <MenuItem value="tas">TAS</MenuItem>
         </Select>
         <TextField
-          id="niconico-url"
+          id="movieId"
           label="Input niconico URL"
           type="url"
           variant="outlined"
           className={styles.inputField}
-          value={url}
-          onChange={(e: any) => setURL(e.target.value)}
+          value={movieId}
+          disabled
         />
         <TextField
           id="memo-field"
@@ -139,18 +131,50 @@ const Register: FC = () => {
             variant="contained"
             color="primary"
             className={styles.inputButton}
-            onClick={() => registerAction()}
+            onClick={() => editAction()}
             disabled={!isClickable}
           >
             {buttonText}
           </Button>
         </div>
+
+        <div
+          className={styles.inputButtonField}
+          style={{ marginTop: '50px' }}
+        >
+          <Button
+            variant="contained"
+            color="secondary"
+            className={styles.inputButton}
+            onClick={() => deleteAction()}
+          >
+            リンクを削除する
+          </Button>
+        </div>
         <p>
-          ※保存するにはログインする必要があります
+          ※保存、削除を行うにはログインする必要があります
         </p>
+
       </div>
     </>
   );
 };
 
-export default Register;
+export async function getServerSideProps(context: any) {
+  const { movieId } = context.query;
+
+  const movies = [] as any;
+  const docIds = [] as string[];
+  const list = await db.collection('movies')
+    .where('movieId', '==', movieId)
+    .get();
+
+  list.docs.forEach((doc: any) => {
+    movies.push(doc.data());
+    docIds.push(doc.id);
+  });
+
+  return { props: { movie: movies[0], docId: docIds[0] } };
+}
+
+export default Edit;

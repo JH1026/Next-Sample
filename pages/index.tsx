@@ -8,8 +8,8 @@ import db from '../src/utils/firebase-admin';
 const List: FC = () => {
   const movieList = [
     {
-      title: 'ボカロ実況動画',
-      category: 'vocaloid',
+      title: '料理動画',
+      category: 'cook',
     },
     {
       title: '実況動画',
