@@ -4,7 +4,7 @@ import {
   Button,
 } from '@material-ui/core';
 import router from 'next/router';
-import NicoNicoThumbnail from './NicoNicoThumbnail';
+import NicoNicoThumbnail from './niconicoThumbnail';
 
 type Props = {
   memo: string,
