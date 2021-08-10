@@ -3,7 +3,7 @@
 This is sample app using next.js,firebase,vercel.<br>
 This App aims to collect niconico movie link.<br>
 <br>
-https://next-sample-6e3i2fp16-juneorg2020.vercel.app/
+https://next-sample-theta.vercel.app/
 
 ## Techniques
 
